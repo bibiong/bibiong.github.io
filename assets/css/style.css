@@ -274,16 +274,37 @@ p:last-child { margin-bottom: 0; }
   overflow: hidden;
 }
 .strip__inner {
-  display: flex; align-items: center;
-  gap: clamp(1.5rem, 4vw, 3.5rem);
+  /* Full browser width: override .wrap's 1240px cap, keep the gutter. */
+  max-width: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;   /* spread edge to edge */
+  gap: .8rem clamp(1rem, 2.5vw, 2.5rem);
   font-family: var(--font-mono);
-  font-size: .74rem;
+  font-size: clamp(.66rem, 1.05vw, .78rem);
   letter-spacing: .12em;
   text-transform: uppercase;
   color: var(--ink-3);
   white-space: nowrap;
-  overflow-x: auto;
-  scrollbar-width: none;
+}
+
+/* Once they wrap onto multiple rows, space-between strands the last row —
+   centre them instead so the block still reads as one unit. */
+@media (max-width: 860px) {
+  .strip__inner { justify-content: center; gap: .7rem 1.4rem; }
+}
+
+/* Phones: tighten so it lands as two balanced rows rather than three
+   with a single orphaned word on the last line. */
+@media (max-width: 560px) {
+  .strip__inner {
+    padding-inline: 1rem;
+    gap: .5rem 1rem;
+    font-size: .62rem;
+    letter-spacing: .1em;
+  }
+  .strip__inner span::before { width: 3px; height: 3px; }
 }
 .strip__inner::-webkit-scrollbar { display: none; }
 .strip__inner span { display: inline-flex; align-items: center; gap: .6rem; }
