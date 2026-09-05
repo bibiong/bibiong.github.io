@@ -140,8 +140,27 @@ function fetchGa4() {
     limit: 5
   }));
 
+  // Daily visitors for the trend chart. GA4 omits zero days, so map onto a
+  // full 30-day sequence rather than trusting the row order or count.
+  var raw = rowsOf(runReport({
+    dateRanges: [{ startDate: '30daysAgo', endDate: 'yesterday' }],
+    dimensions: [{ name: 'date' }],
+    metrics: [{ name: 'totalUsers' }],
+    orderBys: [{ dimension: { dimensionName: 'date' } }],
+    limit: 40
+  }));
+  var byDate = {};
+  raw.forEach(function (r) { byDate[r.dims[0]] = r.vals[0]; });
+
+  var daily = [];
+  for (var d = 30; d >= 1; d--) {
+    var day = new Date(Date.now() - d * 864e5);
+    var key = Utilities.formatDate(day, Session.getScriptTimeZone(), 'yyyyMMdd');
+    daily.push({ date: day, users: byDate[key] || 0 });
+  }
+
   return { totals: now, prior: before, pages: pages, sources: sources,
-           countries: countries, events: events, repos: repos };
+           countries: countries, events: events, repos: repos, daily: daily };
 }
 
 
@@ -267,6 +286,8 @@ function buildHtml(ga, cvs) {
     });
     h.push('</tr></table>');
 
+    h.push(trendChart(ga.daily, A, LINE, MUTED));
+
     h.push(table('Most-read pages', ga.pages, function (r) {
       return [r.dims[0] === '/' ? 'Home' : r.dims[0].replace('/work/', '').replace('.html', ''), r.vals[0]];
     }, LINE, MUTED));
@@ -299,6 +320,52 @@ function buildHtml(ga, cvs) {
   h.push('</div></div>');
 
   return h.join('');
+}
+
+/**
+ * 30-day visitor trend as a bar chart.
+ * Built from table cells with inline styles, not SVG or an image: Gmail strips
+ * SVG and <style> blocks, and most clients block remote images by default.
+ * The last 7 bars — the week this email reports on — are in the accent colour.
+ */
+function trendChart(daily, A, LINE, MUTED) {
+  if (!daily || !daily.length) return '';
+
+  var H = 84;                                     // tallest bar, px
+  var max = 0;
+  daily.forEach(function (d) { if (d.users > max) max = d.users; });
+
+  var head = '<div style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:' + MUTED +
+             ';border-bottom:1px solid ' + LINE + ';padding-bottom:8px;margin-bottom:14px">' +
+             'Visitors, past 30 days' +
+             (max ? '<span style="float:right;letter-spacing:0;text-transform:none">peak ' + max + '</span>' : '') +
+             '</div>';
+
+  if (!max) {
+    return head + '<div style="font-size:13px;color:' + MUTED + ';margin-bottom:24px">' +
+           'No visitors recorded yet.</div>';
+  }
+
+  var bars = daily.map(function (d, i) {
+    var h = Math.max(2, Math.round((d.users / max) * H));   // keep zero days visible
+    var recent = i >= daily.length - 7;
+    return '<td valign="bottom" align="center" style="padding:0 1px;font-size:0;line-height:0">' +
+           '<div style="width:17px;height:' + h + 'px;background:' +
+           (recent ? A : '#DDD4C8') + ';border-radius:1px;font-size:0;line-height:0">&nbsp;</div></td>';
+  }).join('');
+
+  var fmt = function (d) { return Utilities.formatDate(d, Session.getScriptTimeZone(), 'd MMM'); };
+
+  return head +
+    '<table cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;height:' + H + 'px">' +
+    '<tr>' + bars + '</tr></table>' +
+    '<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:7px 0 6px">' +
+    '<tr><td style="font-size:11px;color:' + MUTED + '">' + fmt(daily[0].date) + '</td>' +
+    '<td align="right" style="font-size:11px;color:' + MUTED + '">' + fmt(daily[daily.length - 1].date) + '</td>' +
+    '</tr></table>' +
+    '<div style="font-size:11px;color:' + MUTED + ';margin-bottom:24px">' +
+    '<span style="color:' + A + '">&#9632;</span> the week this report covers &nbsp; ' +
+    '<span style="color:#DDD4C8">&#9632;</span> earlier</div>';
 }
 
 function table(title, rows, fn, LINE, MUTED) {
