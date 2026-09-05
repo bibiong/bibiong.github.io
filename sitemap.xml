@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://brendaong.com/</loc><priority>1.0</priority></url>
+  <url><loc>https://brendaong.com/duty-log/</loc><priority>0.9</priority></url>
   <url><loc>https://brendaong.com/work/ai-misuse-atlas.html</loc><priority>0.8</priority></url>
   <url><loc>https://brendaong.com/work/ai-incident-aar-library.html</loc><priority>0.8</priority></url>
   <url><loc>https://brendaong.com/work/policy-to-eval-harness.html</loc><priority>0.8</priority></url>
@@ -8,4 +9,5 @@
 <url><loc>https://brendaong.com/work/apac-regulatory-readiness.html</loc><priority>0.8</priority></url>
   <url><loc>https://brendaong.com/work/crisis-comms-wargame.html</loc><priority>0.8</priority></url>
   <url><loc>https://brendaong.com/work/distress-conversation-safety-eval.html</loc><priority>0.8</priority></url>
+  <url><loc>https://brendaong.com/work/multilingual-enforcement-consistency.html</loc><priority>0.8</priority></url>
 </urlset>

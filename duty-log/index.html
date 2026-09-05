@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Duty Log — Brenda Ong</title>
+<meta name="description" content="Twelve real situations from thirteen years of police operations, national crisis communications and technology policy. Make the call yourself, then see what was actually done and what it cost.">
+<link rel="canonical" href="https://brendaong.com/duty-log/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://brendaong.com/duty-log/">
+<meta property="og:title" content="Duty Log — Brenda Ong">
+<meta property="og:description" content="Twelve real decisions across Trust &amp; Safety, Policy &amp; Comms and Chief of Staff. Make the call, then see what was actually done.">
+<meta property="og:image" content="https://brendaong.com/assets/img/hero-900.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Inter+Tight:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%2317140F'/><text y='72' x='50' text-anchor='middle' font-family='Helvetica,Arial' font-weight='600' font-size='60' fill='%23B26136'>B</text></svg>">
+
+<style>
+/* ==========================================================================
+   Duty Log — page-specific styles.
+   Everything is namespaced .dl-* so nothing can collide with the site system.
+   Colours, fonts, wrap and radius all come from the site tokens in style.css.
+   Adds only three semantic hues, which are deliberately NOT the accent.
+   ========================================================================== */
+.dl{
+  --ok:#4C6B4A;   --ok-soft:#E5EBE0;
+  --warn:#8F6B14;  --warn-soft:#F2E9D2;
+  --bad:#9C3520;   --bad-soft:#F5DFD7;
+  --mono:var(--font-mono);
+}
+
+.dl-eyebrow{
+  font-family:var(--mono);font-size:.69rem;font-weight:600;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);margin:0 0 .55rem;
+}
+
+/* ---------- lane selector ---------- */
+.dl-lanebar{
+  position:sticky;top:0;z-index:30;background:var(--paper);
+  border-bottom:1px solid var(--line);
+}
+.dl-lanebar__in{display:flex;flex-wrap:wrap;align-items:center;gap:.75rem 1.5rem;padding:.7rem 0}
+.dl-lanebar__lbl{
+  font-family:var(--mono);font-size:.66rem;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--ink-3);
+}
+.dl-lanes{display:flex;flex-wrap:wrap;border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.dl-lane{
+  appearance:none;border:0;border-right:1px solid var(--line);background:transparent;cursor:pointer;
+  font-family:var(--mono);font-size:.7rem;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--ink-2);padding:.6rem .95rem;display:flex;align-items:center;gap:.5rem;
+  transition:background .15s var(--ease),color .15s var(--ease);
+}
+.dl-lane:last-child{border-right:0}
+.dl-lane i{width:6px;height:6px;background:var(--paper-3);border-radius:1px;flex:none}
+.dl-lane:hover{background:var(--paper-2);color:var(--ink)}
+.dl-lane[aria-selected="true"]{background:var(--ink);color:var(--paper)}
+.dl-lane[aria-selected="true"] i{background:var(--accent)}
+
+/* ---------- hero ---------- */
+.dl-hero{padding:clamp(2.4rem,5vw,4rem) 0 clamp(1.8rem,3vw,2.6rem)}
+.dl-hero__grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:clamp(1.6rem,4vw,3.4rem);align-items:end}
+@media(max-width:900px){.dl-hero__grid{grid-template-columns:1fr;align-items:start}}
+.dl-hero h1{font-size:clamp(2.2rem,5.2vw,3.9rem);margin:0 0 .8rem}
+.dl-hero h1 em{font-style:normal;color:var(--accent)}
+.dl-hero__sub{font-size:clamp(1rem,1.35vw,1.12rem);color:var(--ink-2);max-width:60ch}
+.dl-hero__sub strong{color:var(--ink);font-weight:600}
+.dl-logline{
+  font-family:var(--mono);font-size:.76rem;color:var(--ink-2);line-height:1.75;
+  border-left:3px solid var(--accent);padding:.6rem 0 .6rem .85rem;margin-top:1.5rem;
+  background:linear-gradient(90deg,var(--accent-soft),transparent 60%);
+}
+.dl-logline b{color:var(--ink);font-weight:600}
+
+.dl-facts{margin:0;border-top:1px solid var(--ink)}
+.dl-fact{display:grid;grid-template-columns:auto 1fr;gap:1rem;align-items:baseline;
+  padding:.75rem 0;border-bottom:1px solid var(--line-soft)}
+.dl-fact dt{font-family:var(--font-display);font-weight:600;font-size:1.62rem;
+  letter-spacing:-.035em;font-variant-numeric:tabular-nums;min-width:4.4ch}
+.dl-fact dd{margin:0;font-size:.87rem;color:var(--ink-2);line-height:1.4}
+
+.dl-orgs{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1.5rem}
+.dl-orgs span{font-family:var(--mono);font-size:.63rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-2);border:1px solid var(--line);border-radius:var(--r);padding:.3rem .55rem}
+
+/* ---------- section frame ---------- */
+.dl-sect{padding:clamp(2.6rem,5vw,4.6rem) 0;border-top:1px solid var(--line)}
+.dl-sect__head{display:flex;flex-wrap:wrap;align-items:flex-end;gap:.7rem 2rem;margin-bottom:1.9rem}
+.dl-sect__head h2{font-size:clamp(1.5rem,2.9vw,2.25rem)}
+.dl-sect__head p{margin:0 0 0 auto;color:var(--ink-2);font-size:.94rem;max-width:54ch}
+
+/* ---------- decision desk ---------- */
+.dl-desk{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:clamp(1.1rem,2.4vw,2.2rem);align-items:start}
+@media(max-width:900px){.dl-desk{grid-template-columns:1fr}}
+
+.dl-card{background:var(--paper-2);border:1px solid var(--line);border-radius:var(--r)}
+.dl-card__top{display:flex;flex-wrap:wrap;gap:.5rem .9rem;align-items:center;
+  padding:.65rem 1.1rem;border-bottom:1px solid var(--line);background:var(--paper-3);
+  border-radius:var(--r) var(--r) 0 0}
+.dl-card__tag{font-family:var(--mono);font-size:.66rem;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink)}
+.dl-card__clock{font-family:var(--mono);font-size:.66rem;color:var(--ink-3);margin-left:auto;letter-spacing:.06em}
+.dl-sev{font-family:var(--mono);font-size:.62rem;font-weight:600;letter-spacing:.1em;
+  text-transform:uppercase;padding:.15rem .4rem;border-radius:2px;border:1px solid}
+.dl-sev--hi{background:var(--bad-soft);color:var(--bad);border-color:var(--bad)}
+.dl-sev--mid{background:var(--warn-soft);color:var(--warn);border-color:var(--warn)}
+.dl-sev--low{background:var(--ok-soft);color:var(--ok);border-color:var(--ok)}
+
+.dl-card__body{padding:clamp(1.1rem,2.3vw,1.85rem)}
+.dl-brief{font-size:1.02rem;line-height:1.62;margin:0}
+.dl-ask{font-family:var(--font-display);font-weight:600;font-size:1.15rem;letter-spacing:-.02em;margin:1.15rem 0 0}
+
+.dl-opts{display:grid;gap:.5rem;margin-top:1.05rem}
+.dl-opt{
+  width:100%;text-align:left;cursor:pointer;font:inherit;color:inherit;
+  background:var(--paper);border:1px solid var(--line);border-radius:var(--r);
+  padding:.8rem .9rem;display:grid;grid-template-columns:auto 1fr;gap:.75rem;align-items:start;
+  transition:border-color .15s var(--ease),background .15s var(--ease);
+}
+.dl-opt:hover:not(:disabled){border-color:var(--ink);background:var(--paper-2)}
+.dl-opt:disabled{cursor:default}
+.dl-opt__key{font-family:var(--mono);font-size:.72rem;font-weight:600;color:var(--ink-3);
+  border:1px solid var(--line);border-radius:2px;width:1.35rem;height:1.35rem;display:grid;place-items:center}
+.dl-opt__txt{font-size:.95rem;line-height:1.48}
+.dl-opt[data-state="match"]{border-color:var(--ok);background:var(--ok-soft)}
+.dl-opt[data-state="match"] .dl-opt__key{border-color:var(--ok);color:var(--ok)}
+.dl-opt[data-state="close"]{border-color:var(--warn);background:var(--warn-soft)}
+.dl-opt[data-state="close"] .dl-opt__key{border-color:var(--warn);color:var(--warn)}
+.dl-opt[data-state="costly"]{border-color:var(--bad);background:var(--bad-soft)}
+.dl-opt[data-state="costly"] .dl-opt__key{border-color:var(--bad);color:var(--bad)}
+.dl-opt[data-state="dim"]{opacity:.45}
+.dl-opt__verdict{grid-column:2;font-family:var(--mono);font-size:.68rem;letter-spacing:.07em;
+  text-transform:uppercase;margin-top:.45rem;font-weight:600;line-height:1.6}
+.dl-opt[data-state="match"] .dl-opt__verdict{color:var(--ok)}
+.dl-opt[data-state="close"] .dl-opt__verdict{color:var(--warn)}
+.dl-opt[data-state="costly"] .dl-opt__verdict{color:var(--bad)}
+
+.dl-reveal{margin-top:1.4rem;border-top:2px solid var(--ink);padding-top:1.1rem}
+.dl-reveal[hidden]{display:none}
+.dl-stamp{display:inline-block;font-family:var(--mono);font-size:.64rem;font-weight:600;
+  letter-spacing:.15em;text-transform:uppercase;color:var(--accent-deep);
+  border:1.5px solid var(--accent);border-radius:2px;padding:.22rem .5rem;margin-bottom:.8rem}
+.dl-reveal h3{font-size:1.16rem;margin:0 0 .5rem}
+.dl-reveal p{color:var(--ink-2);font-size:.98rem;margin:0 0 .6rem}
+.dl-src{margin:1rem 0 0;display:flex;flex-wrap:wrap;gap:.5rem;align-items:baseline;font-family:var(--mono);font-size:.72rem;line-height:1.7}
+.dl-src__lbl{color:var(--ink-3);letter-spacing:.1em;text-transform:uppercase}
+.dl-src a{color:var(--ink);border-bottom:1px solid var(--accent);text-decoration:none}
+.dl-src a:hover{color:var(--accent-deep)}
+.dl-src .dl-noref{color:var(--ink-2);border-bottom:1px dotted var(--line)}
+
+.dl-nav{display:flex;flex-wrap:wrap;gap:.65rem;align-items:center;margin-top:1.4rem;
+  border-top:1px solid var(--line-soft);padding-top:1rem}
+.dl-btn{font-family:var(--mono);font-size:.71rem;font-weight:600;letter-spacing:.09em;text-transform:uppercase;
+  padding:.6rem 1rem;border:1px solid var(--ink);border-radius:var(--r);
+  background:var(--ink);color:var(--paper);cursor:pointer;transition:opacity .15s var(--ease)}
+.dl-btn:hover{opacity:.85}
+.dl-btn[disabled]{opacity:.3;cursor:default}
+.dl-btn--ghost{background:transparent;color:var(--ink)}
+.dl-btn--ghost:hover{background:var(--paper-2);opacity:1}
+
+/* ---------- rail ---------- */
+.dl-rail{display:grid;gap:1rem;position:sticky;top:4.6rem}
+@media(max-width:900px){.dl-rail{position:static}}
+.dl-railcard{background:var(--paper-2);border:1px solid var(--line);border-radius:var(--r);padding:1.1rem}
+.dl-railcard h3{font-family:var(--mono);font-size:.68rem;font-weight:600;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--ink-3);margin:0 0 .85rem;letter-spacing:.13em}
+.dl-pips{display:flex;gap:.35rem;margin-bottom:.85rem}
+.dl-pip{flex:1;height:4px;background:var(--paper-3);border-radius:1px}
+.dl-pip[data-v="match"]{background:var(--ok)}
+.dl-pip[data-v="close"]{background:var(--warn)}
+.dl-pip[data-v="costly"]{background:var(--bad)}
+.dl-pip[data-v="current"]{background:var(--ink)}
+.dl-tally{display:flex;align-items:baseline;gap:.6rem}
+.dl-tally b{font-family:var(--font-display);font-size:2.3rem;font-weight:600;letter-spacing:-.045em;
+  font-variant-numeric:tabular-nums;line-height:1}
+.dl-tally span{font-size:.86rem;color:var(--ink-2);line-height:1.35}
+.dl-tallynote{font-size:.86rem;color:var(--ink-2);margin:.55rem 0 0}
+
+.dl-unlocked{list-style:none;padding:0;margin:0}
+.dl-unlocked li{padding:.6rem 0;border-bottom:1px dashed var(--line);font-size:.87rem;line-height:1.45;
+  display:grid;grid-template-columns:auto 1fr;gap:.6rem;align-items:start}
+.dl-unlocked li:last-child{border-bottom:0}
+.dl-unlocked .dl-mk{font-size:.6rem;color:var(--accent);margin-top:.35rem}
+.dl-unlocked .dl-empty{color:var(--ink-3);font-style:italic;display:block;border:0}
+.dl-unlocked a{color:inherit;text-decoration:none;border-bottom:1px solid var(--line)}
+.dl-unlocked a:hover{border-color:var(--accent)}
+
+.dl-cvs{display:grid;gap:.4rem}
+.dl-cvs a{display:flex;align-items:center;justify-content:space-between;gap:.7rem;
+  font-family:var(--mono);font-size:.71rem;letter-spacing:.05em;text-decoration:none;
+  border:1px solid var(--line);border-radius:var(--r);padding:.6rem .7rem;
+  transition:border-color .15s var(--ease),background .15s var(--ease)}
+.dl-cvs a:hover{border-color:var(--ink);background:var(--paper)}
+.dl-cvs a i{font-style:normal;color:var(--ink-3)}
+
+/* ---------- timeline ---------- */
+.dl-tlscroll{overflow-x:auto;padding-bottom:.4rem}
+.dl-tl{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(11rem,1fr);
+  min-width:min(100%,64rem);border-top:2px solid var(--ink)}
+.dl-node{border:0;border-right:1px solid var(--line);background:transparent;text-align:left;
+  font:inherit;color:inherit;cursor:pointer;position:relative;padding:1rem .9rem 1.3rem;
+  transition:background .15s var(--ease)}
+.dl-node:last-child{border-right:0}
+.dl-node::before{content:"";position:absolute;top:-5px;left:.9rem;width:8px;height:8px;
+  background:var(--ink-3);border-radius:1px}
+.dl-node[data-hit="1"]::before{background:var(--accent)}
+.dl-node:hover,.dl-node[aria-pressed="true"]{background:var(--paper-2)}
+.dl-node__yr{display:block;font-family:var(--mono);font-size:.7rem;font-weight:600;letter-spacing:.06em;color:var(--ink-3)}
+.dl-node[data-hit="1"] .dl-node__yr{color:var(--accent-deep)}
+.dl-node__role{display:block;font-family:var(--font-display);font-weight:600;font-size:.9rem;
+  letter-spacing:-.015em;line-height:1.25;margin-top:.4rem}
+.dl-node__org{display:block;font-size:.8rem;color:var(--ink-2);margin-top:.2rem;line-height:1.35}
+
+.dl-tldetail{margin-top:1.2rem;border:1px solid var(--line);border-radius:var(--r);
+  background:var(--paper-2);padding:clamp(1.1rem,2.3vw,1.6rem)}
+.dl-tldetail h3{font-size:1.3rem;margin:0 0 .25rem}
+.dl-tldetail__sub{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--ink-3);margin:0 0 .9rem}
+.dl-tldetail ul{margin:0;padding-left:1.1rem;display:grid;gap:.5rem}
+.dl-tldetail li{font-size:.96rem;color:var(--ink-2);line-height:1.55}
+.dl-tldetail li b{color:var(--ink);font-weight:600}
+.dl-tltags{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1rem}
+.dl-tltags i{font-style:normal;font-family:var(--mono);font-size:.61rem;letter-spacing:.1em;
+  text-transform:uppercase;border:1px solid var(--line);border-radius:var(--r);
+  padding:.25rem .5rem;color:var(--ink-3)}
+.dl-tltags i.on{border-color:var(--accent);color:var(--accent-deep);background:var(--accent-soft)}
+
+/* ---------- proof shelf ---------- */
+.dl-shelf{display:grid;grid-template-columns:repeat(auto-fill,minmax(19rem,1fr));gap:1px;
+  background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.dl-proof{background:var(--paper-2);padding:1.2rem;display:flex;flex-direction:column;gap:.65rem}
+.dl-proof[data-dim="1"]{background:var(--paper);opacity:.52}
+.dl-proof__h{display:flex;align-items:baseline;gap:.6rem}
+.dl-proof__n{font-family:var(--mono);font-size:.68rem;color:var(--ink-3);font-variant-numeric:tabular-nums}
+.dl-proof h3{font-size:1rem;line-height:1.25}
+.dl-proof__find{font-size:.94rem;color:var(--ink);line-height:1.5;margin:0}
+.dl-proof__find b{color:var(--accent-deep);font-weight:600}
+.dl-proof__meta{margin-top:auto;display:flex;flex-wrap:wrap;gap:.35rem .9rem;align-items:center;
+  font-family:var(--mono);font-size:.64rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.dl-proof__meta a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--accent)}
+.dl-proof__meta a:hover{color:var(--accent-deep)}
+.dl-lanepips{display:flex;gap:.22rem;margin-left:auto}
+.dl-lanepips i{width:7px;height:7px;background:var(--paper-3);border-radius:1px;font-style:normal}
+.dl-lanepips i.on{background:var(--accent)}
+
+/* ---------- fit brief ---------- */
+.dl-fitlede{border-left:3px solid var(--accent);padding-left:1rem;margin-bottom:1.5rem;max-width:66ch}
+.dl-fitlede p{font-size:1.08rem;margin:0;color:var(--ink)}
+.dl-fitlede em{font-style:normal;color:var(--accent-deep);font-weight:600}
+.dl-fit{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);
+  border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+@media(max-width:820px){.dl-fit{grid-template-columns:1fr}}
+.dl-fitcol{background:var(--paper-2);padding:1.3rem;display:grid;gap:.8rem;align-content:start}
+.dl-fitcol h3{font-family:var(--mono);font-size:.66rem;font-weight:600;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-3);margin:0}
+.dl-fitcol ul{margin:0;padding-left:1.05rem;display:grid;gap:.6rem}
+.dl-fitcol li{font-size:.93rem;color:var(--ink-2);line-height:1.55}
+.dl-fitcol li b{color:var(--ink);font-weight:600}
+
+.dl-close{padding:clamp(2.2rem,4vw,3.4rem) 0 1rem;border-top:1px solid var(--line)}
+.dl-close h2{font-size:clamp(1.5rem,2.9vw,2.1rem);margin:0 0 .7rem}
+.dl-close p{color:var(--ink-2);max-width:56ch}
+.dl-colophon{font-family:var(--mono);font-size:.68rem;color:var(--ink-3);line-height:1.85;margin-top:1.4rem}
+
+@media (prefers-reduced-motion:no-preference){
+  .dl-reveal[data-in]{animation:dl-rise .32s var(--ease) both}
+  @keyframes dl-rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<nav class="nav" id="nav">
+  <div class="wrap nav__inner">
+    <a class="nav__brand" href="../index.html">Brenda&nbsp;Ong<span class="dot">.</span></a>
+    <ul class="nav__links">
+      <li><a href="../index.html#focus">Focus</a></li>
+      <li><a href="../index.html#work">Work</a></li>
+      <li><a href="../index.html#experience">Experience</a></li>
+      <li><a href="../index.html#education">Education</a></li>
+      <li><a href="../index.html#writing">Writing</a></li>
+      <li><a href="./" aria-current="page">Duty log</a></li>
+    </ul>
+    <a class="nav__cta" href="../index.html#contact">Get in touch</a>
+  </div>
+</nav>
+
+<main id="main" class="dl">
+
+  <div class="dl-lanebar">
+    <div class="wrap dl-lanebar__in">
+      <span class="dl-lanebar__lbl">Duty log &middot; select lane</span>
+      <div class="dl-lanes" role="tablist" aria-label="Role lane">
+        <button class="dl-lane" role="tab" aria-selected="true"  data-lane="ts"><i></i>Trust &amp; Safety</button>
+        <button class="dl-lane" role="tab" aria-selected="false" data-lane="pc"><i></i>Policy &amp; Comms</button>
+        <button class="dl-lane" role="tab" aria-selected="false" data-lane="cos"><i></i>Chief of Staff</button>
+      </div>
+    </div>
+  </div>
+
+  <header class="dl-hero wrap">
+    <div class="dl-hero__grid">
+      <div>
+        <p class="dl-eyebrow">Singapore &middot; open to relocation globally</p>
+        <h1>Thirteen years of calls made <em>while the clock was running</em>.</h1>
+        <p class="dl-hero__sub">
+          Police operations, national crisis communications and emerging-technology policy for the
+          Singapore government &mdash; now pointed at AI safety. This page is not a r&eacute;sum&eacute;;
+          the <a href="../index.html#experience">r&eacute;sum&eacute; is on the homepage</a>. This is the
+          <strong>decision log</strong>: twelve real situations from the record, four in each of the
+          three lanes you might be hiring for. Make the call yourself, then see what was actually
+          done and what it cost.
+        </p>
+        <p class="dl-logline">
+          <b>LOG OPEN.</b> Lane: <b id="dl-loglane">Trust &amp; Safety</b> &middot;
+          Situations on file: <b>4</b> &middot; Evidence attached to every outcome.
+        </p>
+        <div class="dl-orgs">
+          <span>Singapore Police Force</span><span>INTERPOL</span><span>HTX</span>
+          <span>LymeAlert</span><span>MIT Sloan</span><span>Georgetown</span><span>Cambridge</span>
+        </div>
+      </div>
+      <dl class="dl-facts">
+        <div class="dl-fact"><dt>1,500</dt><dd>officers in the police division whose operations she ran</dd></div>
+        <div class="dl-fact"><dt>25+</dt><dd>major press conferences fronted as official police spokesperson</dd></div>
+        <div class="dl-fact"><dt>20+</dt><dd>disinformation and smear campaigns countered at national scale</dd></div>
+        <div class="dl-fact"><dt>8</dt><dd>open research projects, each shipping the code behind its finding</dd></div>
+      </dl>
+    </div>
+  </header>
+
+  <section class="dl-sect wrap" id="desk">
+    <div class="dl-sect__head">
+      <div>
+        <p class="dl-eyebrow">01 &middot; The decision desk</p>
+        <h2 id="dl-desktitle">Trust &amp; Safety: four live situations</h2>
+      </div>
+      <p id="dl-deskblurb"></p>
+    </div>
+
+    <div class="dl-desk">
+      <article class="dl-card">
+        <div class="dl-card__top">
+          <span class="dl-sev dl-sev--hi" id="dl-sev">P1</span>
+          <span class="dl-card__tag" id="dl-tag">Enforcement operations</span>
+          <span class="dl-card__clock" id="dl-clock">Situation 1 / 4</span>
+        </div>
+        <div class="dl-card__body">
+          <p class="dl-brief" id="dl-brief"></p>
+          <p class="dl-ask" id="dl-ask"></p>
+          <div class="dl-opts" id="dl-opts" role="group" aria-label="Your call"></div>
+
+          <div class="dl-reveal" id="dl-reveal" hidden>
+            <span class="dl-stamp">What actually happened</span>
+            <h3 id="dl-head"></h3>
+            <div id="dl-body"></div>
+            <p class="dl-src"><span class="dl-src__lbl">On the record</span><span id="dl-srcs"></span></p>
+          </div>
+
+          <div class="dl-nav">
+            <button class="dl-btn" id="dl-next" type="button" disabled>Next situation &rarr;</button>
+            <button class="dl-btn dl-btn--ghost" id="dl-restart" type="button">Restart lane</button>
+          </div>
+        </div>
+      </article>
+
+      <aside class="dl-rail">
+        <div class="dl-railcard">
+          <h3>Agreement</h3>
+          <div class="dl-pips" id="dl-pips"></div>
+          <div class="dl-tally"><b id="dl-tallyn">0/0</b><span id="dl-tallylbl">calls made so far</span></div>
+          <p class="dl-tallynote" id="dl-tallynote"></p>
+        </div>
+        <div class="dl-railcard">
+          <h3>Evidence unlocked</h3>
+          <ul class="dl-unlocked" id="dl-unlocked"></ul>
+        </div>
+        <div class="dl-railcard">
+          <h3>Take the paperwork</h3>
+          <div class="dl-cvs">
+            <a href="../assets/cv/Brenda-Ong-CV-Trust-and-Safety.pdf"
+               data-cv="../assets/cv/Brenda-Ong-CV-Trust-and-Safety.pdf"
+               data-cv-name="Trust &amp; Safety CV">CV &mdash; Trust &amp; Safety <i>PDF</i></a>
+            <a href="../assets/cv/Brenda-Ong-CV-Communications-and-Policy.pdf"
+               data-cv="../assets/cv/Brenda-Ong-CV-Communications-and-Policy.pdf"
+               data-cv-name="Communications &amp; Policy CV">CV &mdash; Communications &amp; Policy <i>PDF</i></a>
+            <a href="../assets/cv/Brenda-Ong-CV-Strategy-and-Operations.pdf"
+               data-cv="../assets/cv/Brenda-Ong-CV-Strategy-and-Operations.pdf"
+               data-cv-name="Strategy &amp; Operations CV">CV &mdash; Strategy &amp; Operations <i>PDF</i></a>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="dl-sect wrap" id="record">
+    <div class="dl-sect__head">
+      <div>
+        <p class="dl-eyebrow">02 &middot; Service record</p>
+        <h2>Where the judgment came from</h2>
+      </div>
+      <p>Eleven postings, 2008&ndash;present. Marked nodes feed the lane selected above &mdash;
+        switch lanes and the record re-marks itself.</p>
+    </div>
+    <div class="dl-tlscroll"><div class="dl-tl" id="dl-tl"></div></div>
+    <div class="dl-tldetail" id="dl-tldetail"></div>
+  </section>
+
+  <section class="dl-sect wrap" id="built">
+    <div class="dl-sect__head">
+      <div>
+        <p class="dl-eyebrow">03 &middot; Built, not claimed</p>
+        <h2>Eight projects, eight findings</h2>
+      </div>
+      <p>Each asks a question the field discusses but rarely measures, and ships the code that
+        produced the answer. Projects outside the selected lane are dimmed, not hidden.</p>
+    </div>
+    <div class="dl-shelf" id="dl-shelf"></div>
+  </section>
+
+  <section class="dl-sect wrap" id="fit">
+    <div class="dl-sect__head">
+      <div>
+        <p class="dl-eyebrow">04 &middot; The fit brief</p>
+        <h2 id="dl-fittitle">Why this lane</h2>
+      </div>
+    </div>
+    <div class="dl-fitlede"><p id="dl-fitlede"></p></div>
+    <div class="dl-fit" id="dl-fitgrid"></div>
+  </section>
+
+  <section class="dl-close wrap">
+    <h2>Close the log.</h2>
+    <p>If any of the twelve calls above looked like a problem you currently have, that is the
+      conversation worth having &mdash; <a href="mailto:bihuiong@outlook.com">bihuiong@outlook.com</a>.
+      Happy to walk through any of the projects line by line, including the parts that did not work.</p>
+    <p class="dl-colophon">
+      Every figure on this page traces to a published project report or a documented posting.<br>
+      The research projects are personal work, unaffiliated with any employer; scenarios drawn from
+      them use their published, non-sensitive results. Nothing here is drawn from classified,
+      operational or otherwise non-public material.
+    </p>
+  </section>
+
+  <div class="wrap">
+    <footer class="foot">
+      <div>© <span id="yr">2026</span> Brenda Ong · Singapore</div>
+      <div class="foot__links">
+        <a href="mailto:bihuiong@outlook.com">Email</a>
+        <a href="https://www.linkedin.com/in/brenda-ong-4655aa3a/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://github.com/bibiong" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </footer>
+  </div>
+
+</main>
+
+<!-- ============ CV DOWNLOAD GATE ============ -->
+<div class="gate" id="cv-gate" role="dialog" aria-modal="true" aria-labelledby="gate-title">
+  <div class="gate__panel">
+    <div class="gate__eyebrow">Requesting the <span data-gate-cv>CV</span></div>
+    <h2 id="gate-title">Who am I sending this to?</h2>
+    <p class="gate__lead">
+      Happy to share it — I just like knowing who's reading. Takes ten seconds,
+      and I won't ask again on this device.
+    </p>
+    <form novalidate>
+      <div class="gate__field">
+        <label for="gate-name">Name</label>
+        <input id="gate-name" name="gateName" type="text" autocomplete="name" required>
+      </div>
+      <div class="gate__field">
+        <label for="gate-email">Email</label>
+        <input id="gate-email" name="gateEmail" type="email" autocomplete="email" required>
+      </div>
+      <div class="gate__field">
+        <label for="gate-company">Company or organisation <span class="opt">— optional</span></label>
+        <input id="gate-company" name="gateCompany" type="text" autocomplete="organization">
+      </div>
+      <div class="gate__field">
+        <label for="gate-role">Role you have in mind <span class="opt">— optional</span></label>
+        <input id="gate-role" name="gateRole" type="text">
+      </div>
+      <p class="gate__error" role="alert"></p>
+      <div class="gate__actions">
+        <button class="btn" type="submit">Download CV</button>
+        <button class="gate__cancel" type="button" data-gate-close>Not now</button>
+      </div>
+    </form>
+    <p class="gate__note">
+      Your details come to me only, so I know who's looking. They will not be added to
+      any mailing list, sold, or shared. Questions:
+      <a href="mailto:bihuiong@outlook.com" style="color:var(--accent-deep)">bihuiong@outlook.com</a>.
+    </p>
+  </div>
+</div>
+
+<script src="../assets/js/cv-gate.js" defer></script>
+
+<!-- ============ COOKIE CONSENT ============ -->
+<div class="consent" id="consent-banner" role="region" aria-label="Cookie notice">
+  <p>
+    I use Google Analytics to see which projects people actually read. It sets
+    cookies, so it is off until you say otherwise. No advertising, no tracking
+    across other sites.
+  </p>
+  <div class="consent__actions">
+    <button class="consent__btn consent__btn--yes" type="button" data-consent-accept>Allow</button>
+    <button class="consent__btn consent__btn--no" type="button" data-consent-decline>No thanks</button>
+  </div>
+</div>
+
+<script src="../assets/js/analytics.js" defer></script>
+<script src="../assets/js/main.js" defer></script>
+<script src="../assets/js/duty-log.js" defer></script>
+</body>
+</html>

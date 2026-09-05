@@ -847,3 +847,42 @@ figcaption {
 @media (max-width: 560px) {
   .consent { left: .75rem; right: .75rem; bottom: .75rem; width: auto; }
 }
+
+/* ---------- Duty Log invite (homepage) ---------- */
+.dl-invite {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  background: var(--paper-2);
+  padding: clamp(1.5rem, 3.4vw, 2.6rem);
+}
+@media (max-width: 860px) { .dl-invite { grid-template-columns: 1fr; } }
+
+.dl-invite__list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.dl-invite__list li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: .85rem;
+  align-items: start;
+  padding: .85rem 0;
+  border-bottom: 1px solid var(--line-soft);
+  font-size: .93rem;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+.dl-invite__list li:first-child { padding-top: 0; }
+.dl-invite__list li:last-child { border-bottom: 0; padding-bottom: 0; }
+.dl-invite__list b {
+  font-family: var(--font-mono);
+  font-size: .62rem;
+  font-weight: 600;
+  letter-spacing: .1em;
+  color: var(--accent-deep);
+  border: 1px solid var(--accent);
+  border-radius: 2px;
+  padding: .16rem .4rem;
+  margin-top: .1rem;
+}
