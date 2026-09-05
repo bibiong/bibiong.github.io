@@ -38,6 +38,10 @@ spreadsheet**, on Google's servers — your Mac does not need to be on.
 - The 30-day trend chart is built from HTML table cells, not an image or SVG:
   Gmail strips SVG and most clients block remote images by default. The last
   seven bars are in the accent colour — the week the email reports on.
+- **Hover tooltips** on the chart use the HTML `title` attribute. They work in
+  Outlook.com, Apple Mail and most desktop clients; **Gmail strips them**. That is
+  why the reported week's counts are printed above the bars and a week-by-week
+  total table sits underneath — the numbers are readable without hovering.
 - Traffic figures cover the last 7 full days, ending yesterday, because GA4 data
   takes up to 48 hours to finalise.
 - CV requests are read from the first sheet, matched by column *header* name, so

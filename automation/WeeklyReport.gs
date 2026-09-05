@@ -18,7 +18,7 @@
  * ------------------------------------------------------------------------- */
 
 // ---- CONFIGURE ME ---------------------------------------------------------
-var GA4_PROPERTY_ID = '';                       // e.g. '123456789'
+var GA4_PROPERTY_ID = '551466218';           // brendaong.com
 var EMAIL_TO        = 'bihuiong@outlook.com';
 var SITE            = 'brendaong.com';
 var SEND_WHEN_QUIET = true;   // false = skip the email in a week with no traffic
@@ -346,26 +346,69 @@ function trendChart(daily, A, LINE, MUTED) {
            'No visitors recorded yet.</div>';
   }
 
+  var full = function (d) { return Utilities.formatDate(d, Session.getScriptTimeZone(), 'EEE d MMM'); };
+  var fmt  = function (d) { return Utilities.formatDate(d, Session.getScriptTimeZone(), 'd MMM'); };
+
+  // Row of counts sitting above the bars. Printed for the reported week only —
+  // thirty numbers in a row is unreadable, and those seven are the ones in
+  // question. `title` gives a hover tooltip in clients that honour it.
+  // Labels and bars MUST share one table, or the empty label cells collapse and
+  // the numbers bunch up at the left instead of sitting over their own bars.
+  var tip = function (d) {
+    return full(d.date) + ' — ' + d.users + (d.users === 1 ? ' visitor' : ' visitors');
+  };
+
+  var labels = daily.map(function (d, i) {
+    var recent = i >= daily.length - 7;
+    return '<td align="center" width="19" title="' + tip(d) + '"' +
+           ' style="width:19px;font-size:10px;line-height:13px;color:' + A +
+           ';font-weight:600;padding:0 1px">' + (recent ? d.users : '&nbsp;') + '</td>';
+  }).join('');
+
   var bars = daily.map(function (d, i) {
     var h = Math.max(2, Math.round((d.users / max) * H));   // keep zero days visible
     var recent = i >= daily.length - 7;
-    return '<td valign="bottom" align="center" style="padding:0 1px;font-size:0;line-height:0">' +
+    return '<td valign="bottom" align="center" width="19" height="' + H + '"' +
+           ' title="' + tip(d) + '"' +
+           ' style="width:19px;height:' + H + 'px;padding:0 1px;font-size:0;line-height:0;vertical-align:bottom">' +
            '<div style="width:17px;height:' + h + 'px;background:' +
            (recent ? A : '#DDD4C8') + ';border-radius:1px;font-size:0;line-height:0">&nbsp;</div></td>';
   }).join('');
 
-  var fmt = function (d) { return Utilities.formatDate(d, Session.getScriptTimeZone(), 'd MMM'); };
+  // Week-by-week totals, always visible. Hover is unreliable across mail
+  // clients, so the numbers have to be readable without it.
+  var weeks = [];
+  for (var w = daily.length; w > 0; w -= 7) {
+    var slice = daily.slice(Math.max(0, w - 7), w);
+    if (!slice.length) continue;
+    var sum = 0;
+    slice.forEach(function (d) { sum += d.users; });
+    weeks.unshift({ from: slice[0].date, to: slice[slice.length - 1].date,
+                    users: sum, current: w === daily.length });
+  }
+
+  var weekRows = weeks.map(function (wk) {
+    return '<tr><td style="padding:5px 0;border-bottom:1px solid ' + LINE + ';font-size:13px;color:' +
+           (wk.current ? A : MUTED) + '">' + fmt(wk.from) + ' – ' + fmt(wk.to) +
+           (wk.current ? ' <span style="font-size:11px">(this report)</span>' : '') + '</td>' +
+           '<td align="right" style="padding:5px 0;border-bottom:1px solid ' + LINE +
+           ';font-size:13px;font-weight:600;color:' + (wk.current ? A : 'inherit') + '">' + wk.users + '</td></tr>';
+  }).join('');
 
   return head +
-    '<table cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;height:' + H + 'px">' +
-    '<tr>' + bars + '</tr></table>' +
-    '<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:7px 0 6px">' +
+    '<table cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse">' +
+    '<tr>' + labels + '</tr>' +
+    '<tr>' + bars + '</tr>' +
+    '</table>' +
+    '<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:7px 0 10px">' +
     '<tr><td style="font-size:11px;color:' + MUTED + '">' + fmt(daily[0].date) + '</td>' +
     '<td align="right" style="font-size:11px;color:' + MUTED + '">' + fmt(daily[daily.length - 1].date) + '</td>' +
     '</tr></table>' +
+    '<table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom:8px">' +
+    weekRows + '</table>' +
     '<div style="font-size:11px;color:' + MUTED + ';margin-bottom:24px">' +
-    '<span style="color:' + A + '">&#9632;</span> the week this report covers &nbsp; ' +
-    '<span style="color:#DDD4C8">&#9632;</span> earlier</div>';
+    'Numbers above the bars are the reported week. Hover any bar for its date and count ' +
+    '(works in Outlook.com and Apple Mail; Gmail strips tooltips).</div>';
 }
 
 function table(title, rows, fn, LINE, MUTED) {
