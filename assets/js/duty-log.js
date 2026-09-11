@@ -313,8 +313,8 @@
         'Financial news beat for the national daily; <b>50+ articles published</b> during the internship.',
         'The other side of the podium — useful later, when the job was standing at it.'
       ]},
-    { yr: '2013', role: 'Investigation Officer', org: 'Central Police Division, SPF', lanes: ['ts'],
-      sub: 'Singapore Police Force · Jun 2013 – Jun 2014',
+    { yr: '2012', role: 'Investigation Officer', org: 'Central Police Division, SPF', lanes: ['ts'],
+      sub: 'Singapore Police Force · Sep 2012 – Jun 2014',
       pts: [
         '<b>20+ investigations closed per month</b> on average, case solvability held above <b>85%</b>.',
         'Reviewed cybercrime investigations and policy; streamlined exhibit and case-file management across the division.'
@@ -369,7 +369,7 @@
         'Approved <b>1,000+ news releases</b>, <b>1,600 media lines</b> and 90 proactive features annually; led <b>25+ major press conferences</b> and prepared senior management to front media.',
         'Programme Manager, <b>Police Communications Masterplan</b> — social reputation building, narrative-shaping campaigns and a counter-disinformation framework; public trust rating <b>96%</b>.',
         'Commanded the standing media operations room; planned and executed counter-narratives to <b>20+</b> misinformation and smear campaigns; led inter-government crisis communications cells.',
-        'Mentored and supervised <b>20+ media officers</b>, including career development.'
+        'Mentored and supervised a team of <b>28 media officers</b>, including career development.'
       ]},
     { yr: '2023', role: 'Co-founder, COO & CMO', org: 'LymeAlert, Boston', lanes: ['cos'],
       sub: 'Pre-seed biotech · Jun 2023 – Jul 2025',
