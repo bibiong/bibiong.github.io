@@ -30,7 +30,7 @@
         { h: 'What is on the record', items: [
           'Ran operations for a <b>1,500-officer police division</b>; commanded <b>30+</b> security operations including the F1 race and national events, with red-teaming against foreign agencies.',
           'Stood up a <b>counterterrorism response team</b> whose model was adopted across other police divisions.',
-          '<b>Crisis Negotiation Unit, Deputy Team Leader</b> since 2017 — threat-to-life escalations, structured de-escalation, behavioural risk assessment.',
+          '<b>Crisis Negotiation Unit, Deputy Team Leader</b>, 2017–2023 — threat-to-life escalations, structured de-escalation, behavioural risk assessment.',
           'Reviewed cybercrime investigations and policy; held <b>85%+ case solvability</b> as an investigation officer.'
         ]},
         { h: 'Where to check it', items: [
@@ -293,7 +293,7 @@
           ],
           head: 'The thresholds are agreed before the incident, so the call can be fast inside one.',
           body: [
-            'Deputy Team Leader, <b>Crisis Negotiation Unit, Singapore Police Force, 2017–present</b> — a selected specialist negotiator deploying to life-safety incidents alongside every primary posting held since. The work is converting fast-moving, sensitive signals into actionable options across operations, investigations, intelligence, emergency responders and command, and documenting what was learned so the next escalation goes better.',
+            'Deputy Team Leader, <b>Crisis Negotiation Unit, Singapore Police Force, 2017–2023</b> — a selected specialist negotiator deploying to life-safety incidents alongside every primary posting held since. The work is converting fast-moving, sensitive signals into actionable options across operations, investigations, intelligence, emergency responders and command, and documenting what was learned so the next escalation goes better.',
             'This is the origin of everything in the other three cards. <b>Every escalation path, severity matrix and decision threshold</b> written into an operating model since comes from the same premise: judgment under pressure is a function of how much was decided in advance.'
           ],
           src: [
@@ -338,7 +338,7 @@
         'Wrote cyber-security and data-security policy for the National Digital Identity project with the Cyber Security Agency of Singapore.'
       ]},
     { yr: '2017', role: 'Deputy Team Leader, Crisis Negotiation Unit', org: 'Concurrent specialist posting, SPF', lanes: ['cos', 'ts', 'pc'],
-      sub: 'Singapore Police Force · Jul 2017 – present',
+      sub: 'Singapore Police Force · Jul 2017 – May 2023',
       pts: [
         'Selected specialist negotiator deploying to <b>high-stakes, life-safety incidents</b> alongside every primary posting since.',
         'Structured de-escalation, behavioural risk assessment and pre-agreed decision thresholds, supporting frontline commanders on intervention pathways.',
@@ -353,8 +353,8 @@
         'Worked on the interdisciplinary AI ethics paper behind Singapore’s <b>Advisory Council on the Ethical Use of AI and Data</b> (Dec 2018) and the governance framework that followed.',
         'Set up a first-of-its-kind divisional <b>Women’s Committee</b>, later adopted across the force.'
       ]},
-    { yr: '2018', role: 'Head Operations', org: 'Tanglin Police Division, SPF', lanes: ['ts', 'cos'],
-      sub: 'Singapore Police Force · Jan 2018 – Feb 2021',
+    { yr: '2019', role: 'Head Operations', org: 'Tanglin Police Division, SPF', lanes: ['ts', 'cos'],
+      sub: 'Singapore Police Force · Aug 2019 – Feb 2021',
       pts: [
         'Ran all operational and policy matters — deployment, resourcing and command — for a division of about <b>1,500 officers</b>.',
         'Planned and commanded <b>30+ security operations</b> including the F1 race and national-level events, with red-teaming and joint exercises alongside foreign security agencies.',
@@ -363,7 +363,7 @@
         'Built contingency-planning partnerships with embassies, shopping belts, nightlife operators and educational institutions.'
       ]},
     { yr: '2021', role: 'Assistant Director, Public Communications', org: 'Public Affairs Department, SPF', lanes: ['pc'],
-      sub: 'Singapore Police Force · Feb 2021 – present',
+      sub: 'Singapore Police Force · Feb 2021 – May 2023',
       pts: [
         '<b>Official Police spokesperson.</b> Led strategic communications, media relations, crisis communications and digital strategy for the force.',
         'Approved <b>1,000+ news releases</b>, <b>1,600 media lines</b> and 90 proactive features annually; led <b>25+ major press conferences</b> and prepared senior management to front media.',
